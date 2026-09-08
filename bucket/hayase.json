@@ -9,7 +9,8 @@
         }
     },
     "installer": {
-        "args": "/S"
+        "args": "/S",
+        "admin": true
     },
     "checkver": {
         "url": "https://api.hayase.watch/files/latest.yml",
