@@ -3,22 +3,42 @@
   "description": "Hayase - Torrent streaming made simple",
   "homepage": "https://hayase.watch",
   "license": "Proprietary",
+
   "architecture": {
     "64bit": {
       "url": "https://api.hayase.watch/files/win-hayase-6.4.86-installer.exe",
       "hash": "8050726cb45bf49b99f2be2be8fec37d019c709c8df4bb5b3eefb4670e0a496d"
     }
   },
+
+  "pre_install": [
+    "Set-Content -Path \"$dir\\hayase.cmd\" -Value '@echo off`r`n\"C:\\Program Files\\Hayase\\Hayase.exe\" %*' -Encoding ASCII"
+  ],
+
   "installer": {
     "script": [
       "$process = Start-Process -FilePath \"$dir\\win-hayase-$version-installer.exe\" -ArgumentList '/S' -Verb RunAs -Wait -PassThru",
       "if ($process.ExitCode -ne 0) { throw \"Hayase installer exited with code $($process.ExitCode)\" }"
     ]
   },
+
+  "bin": "hayase.cmd",
+
+  "uninstaller": {
+    "script": [
+      "Stop-Process -Name Hayase -Force -ErrorAction SilentlyContinue",
+      "$uninstaller = Get-ChildItem 'C:\\Program Files\\Hayase' -File -Filter 'Uninstall*.exe' -ErrorAction SilentlyContinue | Select-Object -First 1",
+      "if (-not $uninstaller) { throw 'Hayase uninstaller was not found in C:\\Program Files\\Hayase' }",
+      "$process = Start-Process -FilePath $uninstaller.FullName -ArgumentList '/S' -Verb RunAs -Wait -PassThru",
+      "if ($process.ExitCode -ne 0) { throw \"Hayase uninstaller exited with code $($process.ExitCode)\" }"
+    ]
+  },
+
   "checkver": {
     "url": "https://api.hayase.watch/files/latest.yml",
     "regex": "version:\\s*([\\d.]+)"
   },
+
   "autoupdate": {
     "architecture": {
       "64bit": {
