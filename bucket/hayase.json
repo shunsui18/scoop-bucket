@@ -1,0 +1,25 @@
+{
+    "version": "6.4.86",
+    "description": "Hayase - Torrent streaming made simple",
+    "homepage": "https://hayase.watch",
+    "architecture": {
+        "64bit": {
+            "url": "https://api.hayase.watch/files/win-hayase-6.4.86-installer.exe",
+            "hash": "8050726cb45bf49b99f2be2be8fec37d019c709c8df4bb5b3eefb4670e0a496d"
+        }
+    },
+    "installer": {
+        "args": "/S"
+    },
+    "checkver": {
+        "url": "https://api.hayase.watch/files/latest.yml",
+        "regex": "version:\\s*([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://api.hayase.watch/files/win-hayase-$version-installer.exe"
+            }
+        }
+    }
+}
