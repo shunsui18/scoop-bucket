@@ -1,0 +1,35 @@
+
+name: Update Scoop manifests
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone Scoop
+        shell: pwsh
+        run: git clone --depth 1 https://github.com/ScoopInstaller/Scoop.git scoop-core
+
+      - name: Update manifests
+        shell: pwsh
+        run: |
+          .\scoop-core\bin\checkver.ps1 -App * -Dir .\bucket -Update -ThrowError
+
+      - name: Commit changes
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bucket/
+          if (git diff --cached --quiet) { exit 0 }
+          git commit -m "chore: update Scoop manifests"
+          git push
