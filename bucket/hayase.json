@@ -11,7 +11,11 @@
         }
     },
     "pre_install": [
+        "Get-Process -Name 'Hayase' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } } else { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }",
         "Set-Content -Path \"$dir\\hayase.cmd\" -Value @('@echo off', '\"C:\\Program Files\\Hayase\\Hayase.exe\" %*') -Encoding ASCII"
+    ],
+    "pre_uninstall": [
+        "Get-Process -Name 'Hayase' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } } else { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }"
     ],
     "installer": {
         "script": [
