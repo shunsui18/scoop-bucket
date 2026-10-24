@@ -1,0 +1,14 @@
+{
+    "version": "3.1.0",
+    "description": "Aurora music player",
+    "homepage": "https://github.com/nessli420/aurora",
+    "license": "Unknown",
+    "url": "https://github.com/nessli420/aurora/releases/download/V3.1.0/Aurora-3.1.0.msi",
+    "hash": "72328f592ce0074e22db3cbc59af7a0ff4cdea868d5547759822f79a10110a72",
+    "checkver": {
+        "github": "https://github.com/nessli420/aurora"
+    },
+    "autoupdate": {
+        "url": "https://github.com/nessli420/aurora/releases/download/V$version/Aurora-$version.msi"
+    }
+}
