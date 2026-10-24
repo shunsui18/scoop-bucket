@@ -1,10 +1,18 @@
+
 {
     "version": "3.1.0",
     "description": "Aurora music player",
     "homepage": "https://github.com/nessli420/aurora",
-    "license": "Unknown",
+    "license": "Apache-2.0",
     "url": "https://github.com/nessli420/aurora/releases/download/V3.1.0/Aurora-3.1.0.msi",
     "hash": "72328f592ce0074e22db3cbc59af7a0ff4cdea868d5547759822f79a10110a72",
+    "pre_install": [
+        "$exe = Get-ChildItem -LiteralPath $dir -Filter 'Aurora.exe' -File -Recurse | Select-Object -First 1",
+        "if (-not $exe) { throw 'Aurora.exe was not found in the extracted MSI package' }",
+        "$launcher = Join-Path $dir 'aurora.cmd'",
+        "Set-Content -LiteralPath $launcher -Value @('@echo off', ('\"' + $exe.FullName + '\" %*')) -Encoding ASCII"
+    ],
+    "bin": "aurora.cmd",
     "checkver": {
         "github": "https://github.com/nessli420/aurora"
     },
