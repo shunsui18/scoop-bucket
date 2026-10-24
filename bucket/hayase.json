@@ -1,3 +1,4 @@
+
 {
     "version": "6.5.10",
     "description": "Hayase - Torrent streaming made simple",
@@ -12,17 +13,6 @@
     "pre_install": [
         "Set-Content -Path \"$dir\\hayase.cmd\" -Value @('@echo off', '\"C:\\Program Files\\Hayase\\Hayase.exe\" %*') -Encoding ASCII"
     ],
-    "pre_uninstall": [
-        "Stop-Process -Name Hayase -Force -ErrorAction SilentlyContinue",
-        "$source = Join-Path $env:APPDATA 'Hayase'",
-        "$backupRoot = Join-Path $HOME 'Documents\\Hayase-Backups'",
-        "if (Test-Path $source) {",
-        "    New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null",
-        "    $destination = Join-Path $backupRoot (Get-Date -Format 'yyyyMMdd-HHmmss')",
-        "    Copy-Item -LiteralPath $source -Destination $destination -Recurse -Force -ErrorAction Stop",
-        "    Write-Host \"Hayase settings backed up to $destination\"",
-        "}"
-    ],
     "installer": {
         "script": [
             "$process = Start-Process -FilePath \"$dir\\win-hayase-$version-installer.exe\" -ArgumentList '/S' -Verb RunAs -Wait -PassThru",
@@ -30,15 +20,6 @@
         ]
     },
     "bin": "hayase.cmd",
-    "uninstaller": {
-        "script": [
-            "Stop-Process -Name Hayase -Force -ErrorAction SilentlyContinue",
-            "$uninstaller = Get-ChildItem 'C:\\Program Files\\Hayase' -File -Filter 'Uninstall*.exe' -ErrorAction SilentlyContinue | Select-Object -First 1",
-            "if (-not $uninstaller) { throw 'Hayase uninstaller was not found in C:\\Program Files\\Hayase' }",
-            "$process = Start-Process -FilePath $uninstaller.FullName -ArgumentList '/S' -Verb RunAs -Wait -PassThru",
-            "if ($process.ExitCode -ne 0) { throw \"Hayase uninstaller exited with code $($process.ExitCode)\" }"
-        ]
-    },
     "checkver": {
         "url": "https://api.hayase.watch/files/latest.yml",
         "regex": "version:\\s*([\\d.]+)"
