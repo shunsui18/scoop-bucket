@@ -1,11 +1,10 @@
-
 {
-    "version": "3.1.0",
+    "version": "3.2.0",
     "description": "Aurora music player",
     "homepage": "https://github.com/nessli420/aurora",
     "license": "Unknown",
-    "url": "https://github.com/nessli420/aurora/releases/download/V3.1.0/Aurora-3.1.0.msi",
-    "hash": "72328f592ce0074e22db3cbc59af7a0ff4cdea868d5547759822f79a10110a72",
+    "url": "https://github.com/nessli420/aurora/releases/download/V3.2.0/Aurora-3.2.0.msi",
+    "hash": "873f8aa237a8c5b34c8f2d867c08b76ed6d6a1b439c1e5a88b04bab48e2013f0",
     "pre_install": [
         "Get-Process -Name 'Aurora' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force } } else { Stop-Process -Id $_.Id -Force } }",
         "$exe = Get-ChildItem -LiteralPath $dir -Filter 'Aurora.exe' -File -Recurse | Select-Object -First 1",
@@ -14,9 +13,7 @@
         "$relativeExe = $exe.FullName.Substring($dir.Length).TrimStart('\\')",
         "Set-Content -LiteralPath $launcher -Value @('@echo off', ('\"%~dp0' + $relativeExe + '\" %*')) -Encoding ASCII"
     ],
-    "pre_uninstall": [
-        "Get-Process -Name 'Aurora' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force } } else { Stop-Process -Id $_.Id -Force } }"
-    ],
+    "pre_uninstall": "Get-Process -Name 'Aurora' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force } } else { Stop-Process -Id $_.Id -Force } }",
     "bin": "aurora.cmd",
     "checkver": {
         "github": "https://github.com/nessli420/aurora"
