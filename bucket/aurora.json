@@ -1,10 +1,10 @@
 {
-    "version": "3.3.0",
+    "version": "3.3.1",
     "description": "Aurora music player",
     "homepage": "https://github.com/nessli420/aurora",
     "license": "Unknown",
-    "url": "https://github.com/nessli420/aurora/releases/download/V3.3.0/Aurora-3.3.0.msi",
-    "hash": "da225399c179e4ddf82f1a4a1f154866ab83df99c742aad7158982a5a28b6fa4",
+    "url": "https://github.com/nessli420/aurora/releases/download/V3.3.1/Aurora-3.3.1.msi",
+    "hash": "56b5ca7ee68793bb5119e4e4a8f5b655f62dffef46ce82a16ccb069988c8b7ef",
     "pre_install": [
         "Get-Process -Name 'Aurora' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force } } else { Stop-Process -Id $_.Id -Force } }",
         "$exe = Get-ChildItem -LiteralPath $dir -Filter 'Aurora.exe' -File -Recurse | Select-Object -First 1",
