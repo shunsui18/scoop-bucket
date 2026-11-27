@@ -1,22 +1,19 @@
-
 {
-    "version": "6.5.10",
+    "version": "6.5.11",
     "description": "Hayase - Torrent streaming made simple",
     "homepage": "https://hayase.watch",
     "license": "Proprietary",
     "architecture": {
         "64bit": {
-            "url": "https://api.hayase.watch/files/win-hayase-6.5.10-installer.exe",
-            "hash": "22f3c7bd0d0d87aee4da16d0c731eddaf1667ffc0c61993d442ec1cf9e0df261"
+            "url": "https://api.hayase.watch/files/win-hayase-6.5.11-installer.exe",
+            "hash": "894441a17cbab2f652f1312b7daa004d730c56bb375b46673cdaa5493564dc00"
         }
     },
     "pre_install": [
         "Get-Process -Name 'Hayase' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } } else { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }",
         "Set-Content -Path \"$dir\\hayase.cmd\" -Value @('@echo off', '\"C:\\Program Files\\Hayase\\Hayase.exe\" %*') -Encoding ASCII"
     ],
-    "pre_uninstall": [
-        "Get-Process -Name 'Hayase' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } } else { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }"
-    ],
+    "pre_uninstall": "Get-Process -Name 'Hayase' -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $_.CloseMainWindow() | Out-Null; if (-not $_.WaitForExit(5000)) { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } } else { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }",
     "installer": {
         "script": [
             "$process = Start-Process -FilePath \"$dir\\win-hayase-$version-installer.exe\" -ArgumentList '/S' -Verb RunAs -Wait -PassThru",
